@@ -260,12 +260,20 @@ public class NameNode implements NameNodeStatusMXBean {
   public static final HAState STANDBY_STATE = new StandbyState();
 
   //NameNode核心成员变量用来管理元数据，实现对DataNode、Block的管理及读写日志
-  protected FSNamesystem namesystem; 
+  protected FSNamesystem namesystem;
+  //保存配置文件的信息
   protected final Configuration conf;
+  //保存NameNode的角色信息
   protected final NamenodeRole role;
+  //保存NameNode的状态（HA）
   private volatile HAState state;
+  //是否开启了高可用HA
   private final boolean haEnabled;
+
+  //高可用上下文
   private final HAContext haContext;
+
+
   protected final boolean allowStaleStandbyReads;
   private AtomicBoolean started = new AtomicBoolean(false); 
 
@@ -279,7 +287,8 @@ public class NameNode implements NameNodeStatusMXBean {
   protected NamenodeRegistration nodeRegistration;
   /** Activated plug-ins. */
   private List<ServicePlugin> plugins;
-  
+
+  //NameNode核心成员变量提供RPC服务（提供RPC服务是DataNode 和NameNode通信和外部命令管理NameNode的窗口）
   private NameNodeRpcServer rpcServer;
 
   private JvmPauseMonitor pauseMonitor;
